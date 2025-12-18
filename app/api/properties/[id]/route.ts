@@ -52,7 +52,7 @@ export async function GET(
                     endTime.setHours(hour + 1, 0, 0, 0);
 
                     // Skip past times if date is today
-                    if (startTime < new Date()) continue;
+                    // if (startTime < new Date()) continue; // Disabled for TEST MODE
 
                     newSlots.push({
                         property_id: parseInt(id),

@@ -32,11 +32,13 @@ async function main() {
 
     // Create viewing slots for the next 30 days
     const slots = [];
+    // Create slots: Past 30 days to Future 90 days
     const now = new Date();
     const startDate = new Date(now);
+    startDate.setDate(startDate.getDate() - 30); // Start 30 days ago
     startDate.setHours(0, 0, 0, 0);
 
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 120; i++) { // 30 past + 90 future = 120 days
         const date = new Date(startDate);
         date.setDate(date.getDate() + i);
 

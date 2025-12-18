@@ -143,7 +143,6 @@ export default function PropertyDetailPage({ params }: PageProps) {
                                     setSelectedDate(e.target.value);
                                     setShowSlots(false);
                                 }}
-                                min={new Date().toISOString().split('T')[0]}
                                 className="flex-1 p-2 border rounded-md"
                             />
                             <button
@@ -179,10 +178,10 @@ export default function PropertyDetailPage({ params }: PageProps) {
                                                 onClick={() => setSelectedSlotId(slot.id)}
                                                 disabled={!available}
                                                 className={`p-3 border rounded-md text-center transition ${selectedSlotId === slot.id
-                                                        ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
-                                                        : available
-                                                            ? 'border-gray-300 hover:border-blue-300 bg-white hover:bg-gray-50'
-                                                            : 'border-gray-200 bg-gray-100 cursor-not-allowed opacity-50'
+                                                    ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
+                                                    : available
+                                                        ? 'border-gray-300 hover:border-blue-300 bg-white hover:bg-gray-50'
+                                                        : 'border-gray-200 bg-gray-100 cursor-not-allowed opacity-50'
                                                     }`}
                                             >
                                                 <div className="font-bold text-gray-900">
