@@ -26,7 +26,7 @@ async function main() {
         data: {
             property_id: property.id,
             location: 'ドアノブ',
-            passcode: '0000' // This is the physical box code, not the dynamic key code
+            instruction: '暗証番号: 0000'
         }
     });
 

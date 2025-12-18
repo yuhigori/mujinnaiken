@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client';
-import { PrismaLibSql } from '@prisma/adapter-libsql';
+import { PrismaLibSQL } from '@prisma/adapter-libsql';
 import { generateKeyCode } from '../lib/keyCode';
 import { sendKeyCodeIssued } from '../lib/email';
 
-const adapter = new PrismaLibSql({
+const adapter = new PrismaLibSQL({
     url: process.env.DATABASE_URL || 'file:./prisma/dev.db'
 });
 

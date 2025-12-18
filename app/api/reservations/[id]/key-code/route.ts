@@ -59,7 +59,7 @@ export async function GET(
             });
 
             // Send notification (mock)
-            sendKeyCodeIssued(updatedReservation);
+            sendKeyCodeIssued(updatedReservation.email, updatedReservation, keyCode);
 
             return NextResponse.json({
                 key_code: updatedReservation.key_code,
