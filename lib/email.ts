@@ -1,4 +1,4 @@
-export function sendReservationConfirmation(email: string, reservation: any) {
+export function sendReservationConfirmation(email: string, reservation: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
     console.log('===== 予約完了メール =====');
     console.log(`宛先: ${email}`);
     console.log(`予約ID: ${reservation.id}`);
@@ -8,7 +8,7 @@ export function sendReservationConfirmation(email: string, reservation: any) {
     console.log('========================');
 }
 
-export function sendKeyCodeIssued(email: string, reservation: any, keyCode: string) {
+export function sendKeyCodeIssued(email: string, reservation: any, keyCode: string) { // eslint-disable-line @typescript-eslint/no-explicit-any
     console.log('===== キーコード発行通知 =====');
     console.log(`宛先: ${email}`);
     console.log(`予約ID: ${reservation.id}`);
@@ -17,7 +17,7 @@ export function sendKeyCodeIssued(email: string, reservation: any, keyCode: stri
     console.log('============================');
 }
 
-export function sendKeyReturnReminder(email: string, reservation: any) {
+export function sendKeyReturnReminder(email: string, reservation: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
     console.log('===== 鍵返却リマインド =====');
     console.log(`宛先: ${email}`);
     console.log(`予約ID: ${reservation.id}`);

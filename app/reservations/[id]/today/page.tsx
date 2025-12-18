@@ -10,6 +10,7 @@ interface PageProps {
 
 export default function TodayPage({ params }: PageProps) {
     const searchParams = useSearchParams();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [reservation, setReservation] = useState<any>(null);
     const [keyCode, setKeyCode] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);

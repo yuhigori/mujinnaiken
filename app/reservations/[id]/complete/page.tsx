@@ -10,6 +10,7 @@ interface PageProps {
 
 export default function ReservationCompletePage({ params }: PageProps) {
     const searchParams = useSearchParams();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [reservation, setReservation] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [reservationId, setReservationId] = useState<string>('');

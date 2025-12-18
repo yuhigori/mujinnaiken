@@ -12,6 +12,7 @@ export default function SurveyPage({ params }: PageProps) {
     const router = useRouter();
     const [survey, setSurvey] = useState('');
     const [submitting, setSubmitting] = useState(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [reservation, setReservation] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [reservationId, setReservationId] = useState<string>('');

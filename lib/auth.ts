@@ -19,7 +19,7 @@ export function verifyBasicAuth(authHeader: string | null): boolean {
     return username === adminUser && password === adminPass;
 }
 
-export function requireBasicAuth(): { status: number; headers: Record<string, string>; body: any } | null {
+export function requireBasicAuth(): { status: number; headers: Record<string, string>; body: { error: string } } | null {
     return {
         status: 401,
         headers: {
