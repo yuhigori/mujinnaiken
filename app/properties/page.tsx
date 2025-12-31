@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { prisma, isPrismaAvailable } from '@/lib/prisma';
+import PropertyImage from './PropertyImage';
 
 export const dynamic = 'force-dynamic';
 
@@ -47,30 +48,7 @@ export default async function PropertiesPage() {
                                 className="group relative block h-full"
                             >
                                 <div className="glass-panel h-full rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ring-1 ring-white/20">
-                                    <div className="relative h-64 overflow-hidden">
-                                        {property.image_url ? (
-                                            <img
-                                                src={property.image_url}
-                                                alt={property.name}
-                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                                onError={(e) => {
-                                                    const target = e.target as HTMLImageElement;
-                                                    target.style.display = 'none';
-                                                    const fallback = target.nextElementSibling as HTMLElement;
-                                                    if (fallback) {
-                                                        fallback.style.display = 'flex';
-                                                    }
-                                                }}
-                                            />
-                                        ) : null}
-                                        <div 
-                                            className="w-full h-full bg-gradient-to-br from-orange-100 to-pink-100 flex items-center justify-center text-orange-300"
-                                            style={{ display: property.image_url ? 'none' : 'flex' }}
-                                        >
-                                            No Image
-                                        </div>
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                    </div>
+                                    <PropertyImage imageUrl={property.image_url} alt={property.name} />
                                     <div className="p-6">
                                         <h2 className="text-2xl font-bold mb-2 line-clamp-1 group-hover:text-primary transition-colors">
                                             {property.name}
