@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 
 export default async function AdminReservationsPage() {
-    let reservations = [];
+    let reservations: any[] = [];
     
     try {
         reservations = await prisma.reservation.findMany({

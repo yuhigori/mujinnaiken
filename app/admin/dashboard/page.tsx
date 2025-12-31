@@ -8,8 +8,8 @@ export default async function AdminDashboardPage() {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-    let todayReservations = [];
-    let unreturnedKeys = [];
+    let todayReservations: any[] = [];
+    let unreturnedKeys: any[] = [];
     let totalProperties = 0;
     let totalReservations = 0;
 

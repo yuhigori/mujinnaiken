@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 
 export default async function AdminPropertiesPage() {
-    let properties = [];
+    let properties: any[] = [];
     
     try {
         properties = await prisma.property.findMany({
