@@ -22,10 +22,9 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Viewing slot not found' }, { status: 404 });
         }
 
-        // TEST MODE: allow reservations even when capacity is reached.
-        // if (slot.reserved_count >= slot.capacity) {
-        //     return NextResponse.json({ error: 'Viewing slot is full' }, { status: 400 });
-        // }
+        if (slot.reserved_count >= slot.capacity) {
+            return NextResponse.json({ error: 'Viewing slot is full' }, { status: 400 });
+        }
 
         // Create reservation with token
         const token = generateToken();
