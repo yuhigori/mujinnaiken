@@ -335,7 +335,7 @@ export default function PropertyDetailPage({ params }: PageProps) {
                                         <button
                                             type="submit"
                                             disabled={submitting}
-                                            className="w-full bg-gradient-to-r from-primary to-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg hover:shadow-primary/30 disabled:opacity-50 disabled:cursor-not-allowed transition transform hover:-translate-y-0.5 active:scale-95"
+                                            className="w-full bg-gradient-to-r from-primary via-orange-400 to-pink-400 text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg hover:shadow-primary/30 disabled:opacity-50 disabled:cursor-not-allowed transition transform hover:-translate-y-0.5 active:scale-95"
                                         >
                                             {submitting ? '処理に...' : '予約を確定する'}
                                         </button>

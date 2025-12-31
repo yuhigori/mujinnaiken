@@ -125,7 +125,7 @@ export default function SurveyPage({ params }: PageProps) {
                         <button
                             type="submit"
                             disabled={submitting}
-                            className="w-full bg-gradient-to-r from-primary to-indigo-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.01] transition-all disabled:opacity-50 disabled:cursor-not-allowed mb-4"
+                            className="w-full bg-gradient-to-r from-primary via-orange-400 to-pink-400 text-white py-4 rounded-xl font-bold shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.01] transition-all disabled:opacity-50 disabled:cursor-not-allowed mb-4"
                         >
                             {submitting ? '送信中...' : '送信する'}
                         </button>

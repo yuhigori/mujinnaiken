@@ -1,23 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  /* Bright & Light Palette */
-  --background: #ffffff; /* Pure white */
-  --foreground: #1e293b; /* Slate-800 - darker for better contrast */
+  /* Warm & Welcoming Palette - 家探しが楽しくなる配色 */
+  --background: #fffbf5; /* Warm white - 温かみのある白 */
+  --foreground: #2d3748; /* Warm gray - 柔らかいグレー */
   
-  --primary: #4f46e5; /* Indigo-600 */
+  --primary: #ff6b6b; /* Coral red - 明るく元気な赤 */
   --primary-foreground: #ffffff;
   
-  --secondary: #f8fafc; /* Slate-50 - very light */
-  --secondary-foreground: #334155; /* Slate-700 */
+  --secondary: #fff5e6; /* Peach cream - ピーチクリーム */
+  --secondary-foreground: #4a5568; /* Warm gray */
   
-  --muted: #f8fafc; /* Slate-50 - very light */
-  --muted-foreground: #475569; /* Slate-600 - slightly darker for readability */
+  --muted: #fff9f0; /* Light cream - ライトクリーム */
+  --muted-foreground: #718096; /* Medium gray - 読みやすいグレー */
   
   --card: #ffffff;
-  --card-foreground: #1e293b;
+  --card-foreground: #2d3748;
   
-  --border: #e2e8f0; /* Slate-200 - light border */
+  --border: #ffd4a3; /* Warm orange - 温かみのあるオレンジ */
+  
+  --accent: #4ecdc4; /* Turquoise - 爽やかなターコイズ */
+  --accent-foreground: #ffffff;
   
   /* Font Variables will be set in layout.tsx but referenced here if needed */
   --font-sans: var(--font-noto-sans), system-ui, sans-serif;
@@ -41,22 +44,23 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0f172a; /* Slate-900 */
-    --foreground: #f8fafc; /* Slate-50 */
+    /* ダークモードでも明るい印象を維持 */
+    --background: #fffbf5;
+    --foreground: #2d3748;
     
-    --primary: #6366f1; /* Indigo-500 */
+    --primary: #ff6b6b;
     --primary-foreground: #ffffff;
     
-    --secondary: #1e293b; /* Slate-800 */
-    --secondary-foreground: #f8fafc; /* Slate-50 */
+    --secondary: #fff5e6;
+    --secondary-foreground: #4a5568;
     
-    --muted: #1e293b;
-    --muted-foreground: #94a3b8;
+    --muted: #fff9f0;
+    --muted-foreground: #718096;
     
-    --card: #1e293b;
-    --card-foreground: #f8fafc;
+    --card: #ffffff;
+    --card-foreground: #2d3748;
     
-    --border: #334155;
+    --border: #ffd4a3;
   }
 }
 
@@ -70,15 +74,15 @@ body {
 
 /* Glassmorphism Utilities */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border: 2px solid rgba(255, 212, 163, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(255, 107, 107, 0.1), 0 4px 16px 0 rgba(78, 205, 196, 0.08);
 }
 
 .dark .glass-panel {
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid rgba(255, 212, 163, 0.5);
 }
 
 /* Animations */

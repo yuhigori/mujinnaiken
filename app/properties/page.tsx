@@ -13,7 +13,7 @@ export default async function PropertiesPage() {
         <div className="min-h-screen py-16 px-4">
             <div className="container mx-auto max-w-7xl">
                 <div className="flex flex-col items-center mb-16 space-y-4">
-                    <h1 className="text-4xl md:text-5xl font-bold text-center tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-foreground to-slate-500">
+                    <h1 className="text-4xl md:text-5xl font-bold text-center tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary via-orange-400 to-cyan-500">
                         Select a Property
                     </h1>
                     <p className="text-muted-foreground text-lg text-center max-w-2xl">
@@ -51,7 +51,7 @@ export default async function PropertiesPage() {
                                             />
                                         ) : null}
                                         <div 
-                                            className="w-full h-full bg-slate-100 flex items-center justify-center text-slate-400"
+                                            className="w-full h-full bg-gradient-to-br from-orange-100 to-pink-100 flex items-center justify-center text-orange-300"
                                             style={{ display: property.image_url ? 'none' : 'flex' }}
                                         >
                                             No Image
@@ -70,7 +70,7 @@ export default async function PropertiesPage() {
                                             <span className="line-clamp-2">{property.address}</span>
                                         </div>
                                         {property.description && (
-                                            <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed border-t border-dashed border-slate-100 pt-4 mt-4">
+                                            <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed border-t border-dashed border-orange-100 pt-4 mt-4">
                                                 {property.description}
                                             </p>
                                         )}

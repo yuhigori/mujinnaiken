@@ -151,7 +151,7 @@ export default function TodayPage({ params }: PageProps) {
                     <div className="space-y-4">
                         <Link
                             href={`/reservations/${reservationId}/finish?token=${token}`}
-                            className="block w-full bg-gradient-to-r from-primary to-indigo-600 text-white text-center py-4 rounded-xl font-bold shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.01] transition-all"
+                            className="block w-full bg-gradient-to-r from-primary via-orange-400 to-pink-400 text-white text-center py-4 rounded-xl font-bold shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.01] transition-all"
                         >
                             鍵返却完了を報告
                         </Link>

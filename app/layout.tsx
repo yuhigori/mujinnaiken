@@ -28,7 +28,8 @@ export default function RootLayout({
       <body
         className={`${notoSansJP.variable} ${inter.variable} font-sans antialiased bg-background text-foreground selection:bg-primary selection:text-white`}
       >
-        <div className="fixed inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(125%_125%_at_50%_10%,#fff_60%,#e0e7ff_100%)] dark:[background:radial-gradient(125%_125%_at_50%_10%,#fff_60%,#e0e7ff_100%)] opacity-30 pointer-events-none" />
+        <div className="fixed inset-0 -z-10 h-full w-full bg-gradient-to-br from-orange-50 via-pink-50 to-cyan-50 opacity-60 pointer-events-none" />
+        <div className="fixed inset-0 -z-10 h-full w-full [background:radial-gradient(circle_at_30%_20%,rgba(255,107,107,0.15)_0%,transparent_50%),radial-gradient(circle_at_70%_80%,rgba(78,205,196,0.15)_0%,transparent_50%)] pointer-events-none" />
         {children}
       </body>
     </html>

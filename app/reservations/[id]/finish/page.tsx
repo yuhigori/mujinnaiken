@@ -155,7 +155,7 @@ export default function FinishPage({ params }: PageProps) {
                     <button
                         onClick={handleSubmit}
                         disabled={submitting}
-                        className="w-full bg-gradient-to-r from-primary to-indigo-600 text-white py-4 rounded-xl font-bold font-lg shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.01] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full bg-gradient-to-r from-primary via-orange-400 to-pink-400 text-white py-4 rounded-xl font-bold font-lg shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.01] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {submitting ? '記録中...' : '鍵を返却しました'}
                     </button>

@@ -6,7 +6,7 @@ export default function HomePage() {
       <div className="container mx-auto max-w-4xl">
         {/* ヘッダー */}
         <div className="text-center mb-16 space-y-4 animate-fade-in">
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-foreground via-primary to-foreground">
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary via-orange-400 to-cyan-500">
             無人内見予約システム
           </h1>
           <p className="text-xl text-muted-foreground">
@@ -25,7 +25,7 @@ export default function HomePage() {
             {/* 内見を予約するボタン */}
             <Link
               href="/properties"
-              className="group relative block p-8 rounded-2xl bg-gradient-to-br from-primary to-indigo-700 text-white transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.02]"
+              className="group relative block p-8 rounded-2xl bg-gradient-to-br from-primary via-orange-400 to-pink-400 text-white transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.02]"
             >
               <div className="flex flex-col items-center space-y-4">
                 <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/30 transition-colors">
@@ -54,11 +54,11 @@ export default function HomePage() {
             </Link>
 
             {/* その他のメニュー項目（将来の拡張用） */}
-            <div className="p-8 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-50 dark:to-slate-100 border border-slate-200 dark:border-slate-200 opacity-60">
+            <div className="p-8 rounded-2xl bg-gradient-to-br from-orange-50 to-pink-50 border-2 border-orange-200 opacity-70">
               <div className="flex flex-col items-center space-y-4">
-                <div className="w-16 h-16 rounded-full bg-slate-200 dark:bg-slate-200 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center">
                   <svg
-                    className="w-8 h-8 text-slate-400 dark:text-slate-400"
+                    className="w-8 h-8 text-orange-300"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -72,10 +72,10 @@ export default function HomePage() {
                   </svg>
                 </div>
                 <div className="text-center">
-                  <h3 className="text-xl font-bold mb-1 text-slate-400 dark:text-slate-400">
+                  <h3 className="text-xl font-bold mb-1 text-orange-300">
                     その他の機能
                   </h3>
-                  <p className="text-sm text-slate-400 dark:text-slate-400">
+                  <p className="text-sm text-orange-300">
                     今後追加予定
                   </p>
                 </div>
