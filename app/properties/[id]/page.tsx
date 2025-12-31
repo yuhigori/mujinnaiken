@@ -76,10 +76,15 @@ export default function PropertyDetailPage({ params }: PageProps) {
 
     // 物件情報が読み込まれたら、自動的に今日の空き状況を確認
     useEffect(() => {
-        if (property && selectedDate && propertyId && !showSlots) {
-            handleCheckAvailability();
+        if (property && selectedDate && propertyId && !showSlots && !loading) {
+            // 少し遅延させて、初期レンダリング後に実行
+            const timer = setTimeout(() => {
+                handleCheckAvailability();
+            }, 100);
+            return () => clearTimeout(timer);
         }
-    }, [property, selectedDate, propertyId]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [property, selectedDate, propertyId, loading]);
 
     const handleCheckAvailability = async () => {
         if (!selectedDate || !propertyId) return;
