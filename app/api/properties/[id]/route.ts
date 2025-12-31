@@ -14,54 +14,27 @@ export async function GET(
             return NextResponse.json({ error: 'Invalid property ID' }, { status: 400 });
         }
 
-        // Prismaが利用可能かチェック
-        if (!isPrismaAvailable() || !prisma) {
-            // データベースが利用できない場合でも、最低限の物件情報を返す
-            // これにより、予約ページは表示できる
-            return NextResponse.json({ 
-                property: {
-                    id: propertyId,
-                    name: `物件 #${propertyId}`,
-                    address: '住所情報を取得できませんでした',
-                    description: null,
-                    image_url: null
-                },
-                slots: []
-            });
-        }
-
+        // 物件情報を取得（Prismaが利用できない場合でもフォールバック）
         let property;
-        try {
-            property = await prisma.property.findUnique({
-                where: { id: propertyId }
-            });
-        } catch (dbError) {
-            console.error('Database query error:', dbError);
-            // データベースエラーでも最低限の情報を返す
-            return NextResponse.json({ 
-                property: {
-                    id: propertyId,
-                    name: `物件 #${propertyId}`,
-                    address: '住所情報を取得できませんでした',
-                    description: null,
-                    image_url: null
-                },
-                slots: []
-            });
+        if (isPrismaAvailable() && prisma) {
+            try {
+                property = await prisma.property.findUnique({
+                    where: { id: propertyId }
+                });
+            } catch (dbError) {
+                console.error('Database query error:', dbError);
+            }
         }
 
+        // 物件が見つからない場合、フォールバック情報を使用
         if (!property) {
-            // 物件が見つからない場合でも、IDから最低限の情報を返す
-            return NextResponse.json({ 
-                property: {
-                    id: propertyId,
-                    name: `物件 #${propertyId}`,
-                    address: '住所情報を取得できませんでした',
-                    description: null,
-                    image_url: null
-                },
-                slots: []
-            });
+            property = {
+                id: propertyId,
+                name: `物件 #${propertyId}`,
+                address: '住所情報を取得できませんでした',
+                description: null,
+                image_url: null
+            };
         }
 
         let slots: any[] = [];
@@ -149,9 +122,10 @@ export async function GET(
                 }
             }
 
-            // Prismaが利用できない場合やスロットが生成されなかった場合、フォールバックスロットを返す
+            // Prismaが利用できない場合やスロットが生成されなかった場合、必ずフォールバックスロットを返す
             if (slots.length === 0) {
                 const now = new Date();
+                console.log('Generating fallback slots for date:', dateParam, 'today:', today.toISOString(), 'startOfDay:', startOfDay.toISOString());
                 // 10:00 to 18:00 のスロットを生成（IDは仮の値）
                 for (let hour = 10; hour < 18; hour++) {
                     const startTime = new Date(startOfDay);
@@ -161,7 +135,9 @@ export async function GET(
                     endTime.setHours(hour + 1, 0, 0, 0);
 
                     // 今日の場合は過去の時間をスキップ
-                    if (startOfDay.getTime() === today.getTime() && startTime < now) {
+                    const isToday = startOfDay.getTime() === today.getTime();
+                    if (isToday && startTime < now) {
+                        console.log('Skipping past time:', startTime.toISOString());
                         continue;
                     }
 
@@ -176,6 +152,7 @@ export async function GET(
                         reserved_count: 0
                     });
                 }
+                console.log('Generated fallback slots count:', slots.length);
             }
         } else {
             // 日付パラメータがない場合、未来のスロットのみを取得
