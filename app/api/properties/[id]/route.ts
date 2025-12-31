@@ -74,49 +74,15 @@ export async function GET(
             const endOfDay = new Date(targetDate);
             endOfDay.setHours(23, 59, 59, 999);
 
-            slots = await prisma.viewingSlot.findMany({
-                where: {
-                    property_id: propertyId,
-                    start_time: {
-                        gte: startOfDay,
-                        lte: endOfDay
-                    }
-                },
-                orderBy: {
-                    start_time: 'asc'
-                }
-            });
+            // 過去の日付は除外
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            if (startOfDay < today) {
+                return NextResponse.json({ property, slots: [] });
+            }
 
-            // If no slots exist for this date, generate them on the fly
-            if (slots.length === 0) {
-                const newSlots = [];
-                // 10:00 to 18:00
-                for (let hour = 10; hour < 18; hour++) {
-                    const startTime = new Date(startOfDay);
-                    startTime.setHours(hour, 0, 0, 0);
-
-                    const endTime = new Date(startOfDay);
-                    endTime.setHours(hour + 1, 0, 0, 0);
-
-                    // Skip past times if date is today
-                    // if (startTime < new Date()) continue; // Disabled for TEST MODE
-
-                    newSlots.push({
-                        property_id: propertyId,
-                        start_time: startTime,
-                        end_time: endTime,
-                        capacity: 1,
-                        reserved_count: 0
-                    });
-                }
-
-                if (newSlots.length > 0) {
-                    // Use transaction to create slots and return them
-                    await prisma.$transaction(
-                        newSlots.map(slot => prisma.viewingSlot.create({ data: slot }))
-                    );
-
-                    // Re-fetch to get IDs
+            if (isPrismaAvailable() && prisma) {
+                try {
                     slots = await prisma.viewingSlot.findMany({
                         where: {
                             property_id: propertyId,
@@ -129,18 +95,110 @@ export async function GET(
                             start_time: 'asc'
                         }
                     });
+
+                    // If no slots exist for this date, generate them on the fly
+                    if (slots.length === 0) {
+                        const newSlots = [];
+                        const now = new Date();
+                        // 10:00 to 18:00
+                        for (let hour = 10; hour < 18; hour++) {
+                            const startTime = new Date(startOfDay);
+                            startTime.setHours(hour, 0, 0, 0);
+
+                            const endTime = new Date(startOfDay);
+                            endTime.setHours(hour + 1, 0, 0, 0);
+
+                            // 今日の場合は過去の時間をスキップ
+                            if (startOfDay.getTime() === today.getTime() && startTime < now) {
+                                continue;
+                            }
+
+                            newSlots.push({
+                                property_id: propertyId,
+                                start_time: startTime,
+                                end_time: endTime,
+                                capacity: 1,
+                                reserved_count: 0
+                            });
+                        }
+
+                        if (newSlots.length > 0) {
+                            // Use transaction to create slots and return them
+                            await prisma.$transaction(
+                                newSlots.map(slot => prisma.viewingSlot.create({ data: slot }))
+                            );
+
+                            // Re-fetch to get IDs
+                            slots = await prisma.viewingSlot.findMany({
+                                where: {
+                                    property_id: propertyId,
+                                    start_time: {
+                                        gte: startOfDay,
+                                        lte: endOfDay
+                                    }
+                                },
+                                orderBy: {
+                                    start_time: 'asc'
+                                }
+                            });
+                        }
+                    }
+                } catch (dbError) {
+                    console.error('Database error when fetching slots:', dbError);
+                    // データベースエラー時はフォールバックスロットを生成
+                }
+            }
+
+            // Prismaが利用できない場合やスロットが生成されなかった場合、フォールバックスロットを返す
+            if (slots.length === 0) {
+                const now = new Date();
+                // 10:00 to 18:00 のスロットを生成（IDは仮の値）
+                for (let hour = 10; hour < 18; hour++) {
+                    const startTime = new Date(startOfDay);
+                    startTime.setHours(hour, 0, 0, 0);
+
+                    const endTime = new Date(startOfDay);
+                    endTime.setHours(hour + 1, 0, 0, 0);
+
+                    // 今日の場合は過去の時間をスキップ
+                    if (startOfDay.getTime() === today.getTime() && startTime < now) {
+                        continue;
+                    }
+
+                    slots.push({
+                        id: `temp-${propertyId}-${dateParam}-${hour}`, // 一時的なID
+                        property_id: propertyId,
+                        start_time: startTime.toISOString(),
+                        end_time: endTime.toISOString(),
+                        capacity: 1,
+                        reserved_count: 0
+                    });
                 }
             }
         } else {
-            // テスト用: 過去・未来すべてのスロットを取得
-            slots = await prisma.viewingSlot.findMany({
-                where: {
-                    property_id: propertyId
-                },
-                orderBy: {
-                    start_time: 'asc'
+            // 日付パラメータがない場合、未来のスロットのみを取得
+            if (isPrismaAvailable() && prisma) {
+                try {
+                    const now = new Date();
+                    const endDate = new Date();
+                    endDate.setDate(endDate.getDate() + 30);
+
+                    slots = await prisma.viewingSlot.findMany({
+                        where: {
+                            property_id: propertyId,
+                            start_time: {
+                                gte: now,
+                                lte: endDate
+                            }
+                        },
+                        orderBy: {
+                            start_time: 'asc'
+                        }
+                    });
+                } catch (dbError) {
+                    console.error('Database error when fetching future slots:', dbError);
                 }
-            });
+            }
         }
 
         return NextResponse.json({ property, slots });
