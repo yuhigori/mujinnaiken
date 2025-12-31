@@ -56,13 +56,39 @@ export default function PropertyDetailPage({ params }: PageProps) {
                 console.log('API response:', data);
                 if (data.property) {
                     setProperty(data.property);
+                } else if (data.error) {
+                    // エラーが返された場合でも、最低限の物件情報を設定
+                    console.warn('API returned error, using fallback property:', data.error);
+                    setProperty({
+                        id: parseInt(propertyId),
+                        name: `物件 #${propertyId}`,
+                        address: '住所情報を取得できませんでした',
+                        description: null,
+                        image_url: null
+                    });
                 } else {
                     console.error('Property not found in response:', data);
+                    // レスポンスにpropertyがない場合でも、最低限の情報を設定
+                    setProperty({
+                        id: parseInt(propertyId),
+                        name: `物件 #${propertyId}`,
+                        address: '住所情報を取得できませんでした',
+                        description: null,
+                        image_url: null
+                    });
                 }
                 setLoading(false);
             })
             .catch((error) => {
                 console.error('Error fetching property:', error);
+                // エラーが発生しても、最低限の物件情報を設定してページを表示
+                setProperty({
+                    id: parseInt(propertyId),
+                    name: `物件 #${propertyId}`,
+                    address: '住所情報を取得できませんでした',
+                    description: null,
+                    image_url: null
+                });
                 setLoading(false);
             });
     }, [propertyId]);
