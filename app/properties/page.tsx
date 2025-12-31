@@ -40,12 +40,22 @@ export default async function PropertiesPage() {
                                                 src={property.image_url}
                                                 alt={property.name}
                                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                                onError={(e) => {
+                                                    const target = e.target as HTMLImageElement;
+                                                    target.style.display = 'none';
+                                                    const fallback = target.nextElementSibling as HTMLElement;
+                                                    if (fallback) {
+                                                        fallback.style.display = 'flex';
+                                                    }
+                                                }}
                                             />
-                                        ) : (
-                                            <div className="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400">
-                                                No Image
-                                            </div>
-                                        )}
+                                        ) : null}
+                                        <div 
+                                            className="w-full h-full bg-slate-100 flex items-center justify-center text-slate-400"
+                                            style={{ display: property.image_url ? 'none' : 'flex' }}
+                                        >
+                                            No Image
+                                        </div>
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                     </div>
                                     <div className="p-6">
@@ -60,7 +70,7 @@ export default async function PropertiesPage() {
                                             <span className="line-clamp-2">{property.address}</span>
                                         </div>
                                         {property.description && (
-                                            <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed border-t border-dashed border-slate-200 pt-4 mt-4">
+                                            <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed border-t border-dashed border-slate-100 pt-4 mt-4">
                                                 {property.description}
                                             </p>
                                         )}

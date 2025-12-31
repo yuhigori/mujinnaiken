@@ -1,23 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  /* Premium Palette - Slate & Indigo based */
-  --background: #f8fafc; /* Slate-50 */
-  --foreground: #0f172a; /* Slate-900 */
+  /* Bright & Light Palette */
+  --background: #ffffff; /* Pure white */
+  --foreground: #1e293b; /* Slate-800 - darker for better contrast */
   
   --primary: #4f46e5; /* Indigo-600 */
   --primary-foreground: #ffffff;
   
-  --secondary: #e2e8f0; /* Slate-200 */
-  --secondary-foreground: #1e293b; /* Slate-800 */
+  --secondary: #f8fafc; /* Slate-50 - very light */
+  --secondary-foreground: #334155; /* Slate-700 */
   
-  --muted: #f1f5f9; /* Slate-100 */
-  --muted-foreground: #64748b; /* Slate-500 */
+  --muted: #f8fafc; /* Slate-50 - very light */
+  --muted-foreground: #475569; /* Slate-600 - slightly darker for readability */
   
   --card: #ffffff;
-  --card-foreground: #0f172a;
+  --card-foreground: #1e293b;
   
-  --border: #e2e8f0;
+  --border: #e2e8f0; /* Slate-200 - light border */
   
   /* Font Variables will be set in layout.tsx but referenced here if needed */
   --font-sans: var(--font-noto-sans), system-ui, sans-serif;
@@ -70,15 +70,15 @@ body {
 
 /* Glassmorphism Utilities */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 .dark .glass-panel {
-  background: rgba(30, 41, 59, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(226, 232, 240, 0.8);
 }
 
 /* Animations */

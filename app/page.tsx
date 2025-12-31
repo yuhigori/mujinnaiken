@@ -54,11 +54,11 @@ export default function HomePage() {
             </Link>
 
             {/* その他のメニュー項目（将来の拡張用） */}
-            <div className="p-8 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 border border-slate-200 dark:border-slate-700 opacity-60">
+            <div className="p-8 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-50 dark:to-slate-100 border border-slate-200 dark:border-slate-200 opacity-60">
               <div className="flex flex-col items-center space-y-4">
-                <div className="w-16 h-16 rounded-full bg-slate-300 dark:bg-slate-700 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-slate-200 dark:bg-slate-200 flex items-center justify-center">
                   <svg
-                    className="w-8 h-8 text-slate-500 dark:text-slate-400"
+                    className="w-8 h-8 text-slate-400 dark:text-slate-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -72,10 +72,10 @@ export default function HomePage() {
                   </svg>
                 </div>
                 <div className="text-center">
-                  <h3 className="text-xl font-bold mb-1 text-slate-500 dark:text-slate-400">
+                  <h3 className="text-xl font-bold mb-1 text-slate-400 dark:text-slate-400">
                     その他の機能
                   </h3>
-                  <p className="text-sm text-slate-400 dark:text-slate-500">
+                  <p className="text-sm text-slate-400 dark:text-slate-400">
                     今後追加予定
                   </p>
                 </div>

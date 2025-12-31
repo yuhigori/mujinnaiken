@@ -51,7 +51,7 @@ export default async function AdminDashboardPage() {
                         <h1 className="text-3xl font-bold text-foreground">管理ダッシュボード</h1>
                         <p className="text-muted-foreground mt-1">システムの状況を一目で確認できます</p>
                     </div>
-                    <div className="mt-4 md:mt-0 px-4 py-2 bg-white/50 rounded-full border border-border text-sm font-medium text-muted-foreground">
+                    <div className="mt-4 md:mt-0 px-4 py-2 bg-white/90 rounded-full border border-border text-sm font-medium text-muted-foreground">
                         {new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' })}
                     </div>
                 </div>
@@ -131,7 +131,7 @@ export default async function AdminDashboardPage() {
                     {todayReservations.length > 0 && (
                         <div className="overflow-x-auto">
                             <table className="w-full">
-                                <thead className="bg-muted/50">
+                                <thead className="bg-muted/80">
                                     <tr>
                                         <th className="px-6 py-4 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">時間</th>
                                         <th className="px-6 py-4 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">物件</th>
@@ -141,7 +141,7 @@ export default async function AdminDashboardPage() {
                                 </thead>
                                 <tbody className="divide-y divide-border bg-white/30">
                                     {todayReservations.map((reservation) => (
-                                        <tr key={reservation.id} className="hover:bg-white/50 transition-colors">
+                                        <tr key={reservation.id} className="hover:bg-white/90 transition-colors">
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">
                                                 {new Date(reservation.slot!.start_time).toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })}
                                             </td>

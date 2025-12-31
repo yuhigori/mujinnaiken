@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface ViewingSlot {
@@ -24,6 +24,7 @@ interface PageProps {
 }
 
 export default function PropertyDetailPage({ params }: PageProps) {
+    const { id: propertyId } = use(params);
     const [property, setProperty] = useState<Property | null>(null);
     const [slots, setSlots] = useState<ViewingSlot[]>([]);
     const [selectedDate, setSelectedDate] = useState<string>('');
@@ -35,23 +36,31 @@ export default function PropertyDetailPage({ params }: PageProps) {
     const [checkingSlots, setCheckingSlots] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const router = useRouter();
-    const [propertyId, setPropertyId] = useState<string>('');
-
-    useEffect(() => {
-        params.then(p => setPropertyId(p.id));
-    }, [params]);
 
     useEffect(() => {
         if (!propertyId) return;
 
         // Initial fetch for property details
         fetch(`/api/properties/${propertyId}`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
             .then(data => {
-                setProperty(data.property);
+                console.log('API response:', data);
+                if (data.property) {
+                    setProperty(data.property);
+                } else {
+                    console.error('Property not found in response:', data);
+                }
                 setLoading(false);
             })
-            .catch(() => setLoading(false));
+            .catch((error) => {
+                console.error('Error fetching property:', error);
+                setLoading(false);
+            });
     }, [propertyId]);
 
     useEffect(() => {
@@ -71,6 +80,9 @@ export default function PropertyDetailPage({ params }: PageProps) {
 
         try {
             const res = await fetch(`/api/properties/${propertyId}?date=${selectedDate}`);
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
             const data = await res.json();
             setSlots(data.slots || []);
         } catch (error) {
@@ -184,7 +196,7 @@ export default function PropertyDetailPage({ params }: PageProps) {
                                                 setSelectedDate(e.target.value);
                                                 setShowSlots(false);
                                             }}
-                                            className="w-full p-4 pl-12 bg-white/50 border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all font-medium text-lg"
+                                            className="w-full p-4 pl-12 bg-white/90 border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all font-medium text-lg"
                                         />
                                         <svg className="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -203,7 +215,7 @@ export default function PropertyDetailPage({ params }: PageProps) {
                             {/* Staff Required Checkbox */}
                             {showSlots && (
                                 <div className="mb-6 animate-fade-in">
-                                    <label className="flex items-center space-x-3 p-4 bg-white/50 border border-border rounded-xl cursor-pointer hover:bg-white/70 transition-colors group">
+                                    <label className="flex items-center space-x-3 p-4 bg-white/90 border border-border rounded-xl cursor-pointer hover:bg-white transition-colors group">
                                         <input
                                             type="checkbox"
                                             checked={staffRequired}
@@ -232,7 +244,7 @@ export default function PropertyDetailPage({ params }: PageProps) {
                                     {checkingSlots ? (
                                         <div className="text-center py-12 text-muted-foreground animate-pulse">読み込み中...</div>
                                     ) : slots.length === 0 ? (
-                                        <div className="p-6 bg-muted/50 border border-dashed border-muted-foreground/30 rounded-xl text-center text-muted-foreground">
+                                        <div className="p-6 bg-muted/80 border border-dashed border-muted-foreground/30 rounded-xl text-center text-muted-foreground">
                                             この日の内見枠はありません。<br />別の日付を選択してください。
                                         </div>
                                     ) : (
@@ -251,7 +263,7 @@ export default function PropertyDetailPage({ params }: PageProps) {
                                                                 ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25 ring-2 ring-primary ring-offset-2 scale-105 z-10'
                                                                 : available
                                                                     ? 'bg-white border border-border hover:border-primary/50 hover:shadow-md hover:-translate-y-0.5'
-                                                                    : 'bg-muted/50 border border-transparent opacity-50 cursor-not-allowed grayscale'
+                                                                    : 'bg-muted/80 border border-transparent opacity-50 cursor-not-allowed grayscale'
                                                             }
                                                         `}
                                                     >
@@ -288,7 +300,7 @@ export default function PropertyDetailPage({ params }: PageProps) {
                                             required
                                             value={formData.name}
                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                            className="w-full p-3 bg-white/50 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-muted-foreground/50"
+                                            className="w-full p-3 bg-white/90 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-muted-foreground/50"
                                             placeholder="山田 太郎"
                                         />
                                     </div>
@@ -299,7 +311,7 @@ export default function PropertyDetailPage({ params }: PageProps) {
                                             required
                                             value={formData.phone}
                                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                            className="w-full p-3 bg-white/50 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-muted-foreground/50"
+                                            className="w-full p-3 bg-white/90 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-muted-foreground/50"
                                             placeholder="090-1234-5678"
                                         />
                                     </div>
@@ -310,7 +322,7 @@ export default function PropertyDetailPage({ params }: PageProps) {
                                             required
                                             value={formData.email}
                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                            className="w-full p-3 bg-white/50 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-muted-foreground/50"
+                                            className="w-full p-3 bg-white/90 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-muted-foreground/50"
                                             placeholder="taro@example.com"
                                         />
                                     </div>

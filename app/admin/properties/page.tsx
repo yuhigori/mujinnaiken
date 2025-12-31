@@ -27,7 +27,7 @@ export default async function AdminPropertiesPage() {
                     </div>
                     <Link
                         href="/admin/dashboard"
-                        className="bg-white/50 border border-border px-4 py-2 rounded-xl text-foreground hover:bg-white hover:shadow-sm transition-all text-sm font-medium"
+                        className="bg-white/90 border border-border px-4 py-2 rounded-xl text-foreground hover:bg-white hover:shadow-sm transition-all text-sm font-medium"
                     >
                         ← ダッシュボードに戻る
                     </Link>
@@ -36,7 +36,7 @@ export default async function AdminPropertiesPage() {
                 <div className="glass-panel rounded-2xl overflow-hidden animate-fade-in">
                     <div className="overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-muted/50">
+                            <thead className="bg-muted/80">
                                 <tr>
                                     <th className="px-6 py-4 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">ID</th>
                                     <th className="px-6 py-4 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">物件名</th>
@@ -47,7 +47,7 @@ export default async function AdminPropertiesPage() {
                             </thead>
                             <tbody className="divide-y divide-border bg-white/30">
                                 {properties.map((property) => (
-                                    <tr key={property.id} className="hover:bg-white/50 transition-colors">
+                                    <tr key={property.id} className="hover:bg-white/90 transition-colors">
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-muted-foreground">{property.id}</td>
                                         <td className="px-6 py-4 text-sm font-medium text-foreground">{property.name}</td>
                                         <td className="px-6 py-4 text-sm text-foreground">{property.address}</td>

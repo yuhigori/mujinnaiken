@@ -9,8 +9,13 @@ export async function GET(
         const { id } = await params;
         const dateParam = request.nextUrl.searchParams.get('date');
 
+        const propertyId = parseInt(id);
+        if (isNaN(propertyId)) {
+            return NextResponse.json({ error: 'Invalid property ID' }, { status: 400 });
+        }
+
         const property = await prisma.property.findUnique({
-            where: { id: parseInt(id) }
+            where: { id: propertyId }
         });
 
         if (!property) {
@@ -29,7 +34,7 @@ export async function GET(
 
             slots = await prisma.viewingSlot.findMany({
                 where: {
-                    property_id: parseInt(id),
+                    property_id: propertyId,
                     start_time: {
                         gte: startOfDay,
                         lte: endOfDay
@@ -55,7 +60,7 @@ export async function GET(
                     // if (startTime < new Date()) continue; // Disabled for TEST MODE
 
                     newSlots.push({
-                        property_id: parseInt(id),
+                        property_id: propertyId,
                         start_time: startTime,
                         end_time: endTime,
                         capacity: 1,
@@ -72,7 +77,7 @@ export async function GET(
                     // Re-fetch to get IDs
                     slots = await prisma.viewingSlot.findMany({
                         where: {
-                            property_id: parseInt(id),
+                            property_id: propertyId,
                             start_time: {
                                 gte: startOfDay,
                                 lte: endOfDay
@@ -92,7 +97,7 @@ export async function GET(
 
             slots = await prisma.viewingSlot.findMany({
                 where: {
-                    property_id: parseInt(id),
+                    property_id: propertyId,
                     start_time: {
                         gte: now,
                         lte: endDate

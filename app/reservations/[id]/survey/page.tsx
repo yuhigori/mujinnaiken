@@ -117,7 +117,7 @@ export default function SurveyPage({ params }: PageProps) {
                                 value={survey}
                                 onChange={(e) => setSurvey(e.target.value)}
                                 rows={6}
-                                className="w-full p-4 bg-white/50 border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-muted-foreground/50 resize-none"
+                                className="w-full p-4 bg-white/90 border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-muted-foreground/50 resize-none"
                                 placeholder="物件の良かった点、気になった点など、ご自由にお書きください"
                             />
                         </div>
