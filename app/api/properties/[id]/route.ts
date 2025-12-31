@@ -47,12 +47,9 @@ export async function GET(
             const endOfDay = new Date(targetDate);
             endOfDay.setHours(23, 59, 59, 999);
 
-            // 過去の日付は除外
+            // テスト用: 過去の日付もスロット生成する
             const today = new Date();
             today.setHours(0, 0, 0, 0);
-            if (startOfDay < today) {
-                return NextResponse.json({ property, slots: [] });
-            }
 
             if (isPrismaAvailable() && prisma) {
                 try {

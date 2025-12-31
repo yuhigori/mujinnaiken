@@ -241,7 +241,6 @@ export default function PropertyDetailPage({ params }: PageProps) {
                                         <input
                                             type="date"
                                             value={selectedDate}
-                                            min={new Date().toISOString().split('T')[0]}
                                             onChange={(e) => {
                                                 const newDate = e.target.value;
                                                 setSelectedDate(newDate);
