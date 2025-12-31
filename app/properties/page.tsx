@@ -9,16 +9,17 @@ export default async function PropertiesPage() {
     
     try {
         // prismaが利用可能かチェック
-        if (isPrismaAvailable()) {
+        if (isPrismaAvailable() && prisma) {
             properties = await prisma.property.findMany({
                 orderBy: { created_at: 'desc' }
             });
         } else {
             console.warn('Prisma client is not available - showing empty list');
         }
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching properties:', error);
         // エラーが発生しても空配列で続行
+        properties = [];
     }
 
     return (
