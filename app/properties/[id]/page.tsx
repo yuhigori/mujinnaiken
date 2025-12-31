@@ -293,13 +293,14 @@ export default function PropertyDetailPage({ params }: PageProps) {
                                     ) : (
                                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                                             {slots.map(slot => {
-                                                const available = slot.capacity > slot.reserved_count;
+                                                // テスト用: すべてのスロットを選択可能にする
+                                                const available = true; // slot.capacity > slot.reserved_count;
                                                 const isSelected = selectedSlotId === slot.id;
                                                 return (
                                                     <button
                                                         key={slot.id}
                                                         onClick={() => setSelectedSlotId(slot.id)}
-                                                        disabled={!available}
+                                                        disabled={false}
                                                         className={`
                                                             group relative p-4 rounded-xl text-center transition-all duration-200
                                                             ${isSelected
@@ -313,8 +314,8 @@ export default function PropertyDetailPage({ params }: PageProps) {
                                                         <div className={`font-bold text-lg mb-1 ${isSelected ? 'text-white' : 'text-foreground'}`}>
                                                             {new Date(slot.start_time).toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })}
                                                         </div>
-                                                        <div className={`text-xs font-medium ${isSelected ? 'text-white/80' : available ? 'text-primary' : 'text-muted-foreground'}`}>
-                                                            {available ? '○ 予約可' : '× 満員'}
+                                                        <div className={`text-xs font-medium ${isSelected ? 'text-white/80' : 'text-primary'}`}>
+                                                            ○ 予約可
                                                         </div>
                                                     </button>
                                                 );

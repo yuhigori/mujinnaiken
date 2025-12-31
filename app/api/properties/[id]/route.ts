@@ -132,18 +132,10 @@ export async function GET(
                 }
             }
         } else {
-            // Default behavior: fetch future slots (existing logic)
-            const now = new Date();
-            const endDate = new Date();
-            endDate.setDate(endDate.getDate() + 30);
-
+            // テスト用: 過去・未来すべてのスロットを取得
             slots = await prisma.viewingSlot.findMany({
                 where: {
-                    property_id: propertyId,
-                    start_time: {
-                        gte: now,
-                        lte: endDate
-                    }
+                    property_id: propertyId
                 },
                 orderBy: {
                     start_time: 'asc'
