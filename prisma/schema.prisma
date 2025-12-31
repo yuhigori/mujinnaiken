@@ -1,0 +1,79 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Property {
+  id          Int      @id @default(autoincrement())
+  name        String
+  address     String
+  description String?
+  image_url   String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  key_boxes     KeyBox[]
+  viewing_slots ViewingSlot[]
+  reservations  Reservation[]
+}
+
+model KeyBox {
+  id          Int      @id @default(autoincrement())
+  property_id Int
+  location    String
+  instruction String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  property Property @relation(fields: [property_id], references: [id], onDelete: Cascade)
+
+  @@index([property_id])
+}
+
+model ViewingSlot {
+  id             Int      @id @default(autoincrement())
+  property_id    Int
+  start_time     DateTime
+  end_time       DateTime
+  capacity       Int      @default(1)
+  reserved_count Int      @default(0)
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  property     Property      @relation(fields: [property_id], references: [id], onDelete: Cascade)
+  reservations Reservation[]
+
+  @@index([property_id])
+  @@index([start_time])
+}
+
+model Reservation {
+  id                  Int       @id @default(autoincrement())
+  property_id         Int
+  slot_id             Int
+  name                String
+  email               String
+  phone               String
+  token               String    @unique
+  status              String    @default("confirmed") // confirmed, cancelled
+  staff_required      Boolean   @default(false)
+  key_code            String?
+  key_code_issued_at  DateTime?
+  key_returned_at     DateTime?
+  survey              String?
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+
+  property Property    @relation(fields: [property_id], references: [id], onDelete: Cascade)
+  slot     ViewingSlot @relation(fields: [slot_id], references: [id], onDelete: Cascade)
+
+  @@index([property_id])
+  @@index([slot_id])
+  @@index([token])
+}
