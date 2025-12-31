@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, use } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface ViewingSlot {
@@ -24,7 +24,6 @@ interface PageProps {
 }
 
 export default function PropertyDetailPage({ params }: PageProps) {
-    const { id: propertyId } = use(params);
     const [property, setProperty] = useState<Property | null>(null);
     const [slots, setSlots] = useState<ViewingSlot[]>([]);
     const [selectedDate, setSelectedDate] = useState<string>('');
@@ -36,6 +35,11 @@ export default function PropertyDetailPage({ params }: PageProps) {
     const [checkingSlots, setCheckingSlots] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const router = useRouter();
+    const [propertyId, setPropertyId] = useState<string>('');
+
+    useEffect(() => {
+        params.then(p => setPropertyId(p.id));
+    }, [params]);
 
     useEffect(() => {
         if (!propertyId) return;
