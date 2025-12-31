@@ -74,6 +74,13 @@ export default function PropertyDetailPage({ params }: PageProps) {
         }
     }, [selectedDate]);
 
+    // 物件情報が読み込まれたら、自動的に今日の空き状況を確認
+    useEffect(() => {
+        if (property && selectedDate && propertyId && !showSlots) {
+            handleCheckAvailability();
+        }
+    }, [property, selectedDate, propertyId]);
+
     const handleCheckAvailability = async () => {
         if (!selectedDate || !propertyId) return;
 
@@ -91,7 +98,8 @@ export default function PropertyDetailPage({ params }: PageProps) {
             setSlots(data.slots || []);
         } catch (error) {
             console.error('Error fetching slots:', error);
-            alert('空き状況の取得に失敗しました');
+            setSlots([]);
+            // エラー時は静かに処理（自動チェック時はアラートを出さない）
         } finally {
             setCheckingSlots(false);
         }

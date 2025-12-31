@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { prisma, isPrismaAvailable } from '@/lib/prisma';
 
 export async function GET(
     request: NextRequest,
@@ -14,6 +14,11 @@ export async function GET(
             return NextResponse.json({ error: 'Invalid property ID' }, { status: 400 });
         }
 
+        // Prismaが利用可能かチェック
+        if (!isPrismaAvailable() || !prisma) {
+            return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+        }
+
         const property = await prisma.property.findUnique({
             where: { id: propertyId }
         });
@@ -22,7 +27,7 @@ export async function GET(
             return NextResponse.json({ error: 'Property not found' }, { status: 404 });
         }
 
-        let slots = [];
+        let slots: any[] = [];
 
         if (dateParam) {
             // Fetch slots for specific date
