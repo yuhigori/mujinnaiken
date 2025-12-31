@@ -5,7 +5,10 @@ export const dynamic = 'force-dynamic';
 
 
 export default async function AdminReservationsPage() {
-    const reservations = await prisma.reservation.findMany({
+    let reservations = [];
+    
+    try {
+        reservations = await prisma.reservation.findMany({
         include: {
             property: true,
             slot: true
@@ -13,6 +16,10 @@ export default async function AdminReservationsPage() {
         orderBy: { created_at: 'desc' },
         take: 100
     });
+    } catch (error) {
+        console.error('Error fetching reservations:', error);
+        // エラーが発生しても空配列で続行
+    }
 
     return (
         <div className="min-h-screen py-10 px-4">

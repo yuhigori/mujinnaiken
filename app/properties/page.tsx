@@ -5,9 +5,16 @@ export const dynamic = 'force-dynamic';
 
 
 export default async function PropertiesPage() {
-    const properties = await prisma.property.findMany({
-        orderBy: { created_at: 'desc' }
-    });
+    let properties = [];
+    
+    try {
+        properties = await prisma.property.findMany({
+            orderBy: { created_at: 'desc' }
+        });
+    } catch (error) {
+        console.error('Error fetching properties:', error);
+        // エラーが発生しても空配列で続行
+    }
 
     return (
         <div className="min-h-screen py-16 px-4">

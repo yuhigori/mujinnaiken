@@ -5,7 +5,10 @@ export const dynamic = 'force-dynamic';
 
 
 export default async function AdminPropertiesPage() {
-    const properties = await prisma.property.findMany({
+    let properties = [];
+    
+    try {
+        properties = await prisma.property.findMany({
         include: {
             _count: {
                 select: {
@@ -16,6 +19,10 @@ export default async function AdminPropertiesPage() {
         },
         orderBy: { created_at: 'desc' }
     });
+    } catch (error) {
+        console.error('Error fetching properties:', error);
+        // エラーが発生しても空配列で続行
+    }
 
     return (
         <div className="min-h-screen py-10 px-4">

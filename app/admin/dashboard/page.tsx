@@ -8,8 +8,14 @@ export default async function AdminDashboardPage() {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-    // Today's reservations
-    const todayReservations = await prisma.reservation.findMany({
+    let todayReservations = [];
+    let unreturnedKeys = [];
+    let totalProperties = 0;
+    let totalReservations = 0;
+
+    try {
+        // Today's reservations
+        todayReservations = await prisma.reservation.findMany({
         where: {
             slot: {
                 start_time: {
@@ -24,24 +30,28 @@ export default async function AdminDashboardPage() {
         }
     });
 
-    // Un-returned keys
-    const unreturnedKeys = await prisma.reservation.findMany({
-        where: {
-            key_code: { not: null },
-            key_returned_at: null,
-            slot: {
-                end_time: { lt: now }
+        // Un-returned keys
+        unreturnedKeys = await prisma.reservation.findMany({
+            where: {
+                key_code: { not: null },
+                key_returned_at: null,
+                slot: {
+                    end_time: { lt: now }
+                }
+            },
+            include: {
+                property: true,
+                slot: true
             }
-        },
-        include: {
-            property: true,
-            slot: true
-        }
-    });
+        });
 
-    // Total stats
-    const totalProperties = await prisma.property.count();
-    const totalReservations = await prisma.reservation.count();
+        // Total stats
+        totalProperties = await prisma.property.count();
+        totalReservations = await prisma.reservation.count();
+    } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        // エラーが発生しても空データで続行
+    }
 
     return (
         <div className="min-h-screen py-10 px-4">
