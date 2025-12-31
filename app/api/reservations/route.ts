@@ -6,7 +6,7 @@ import { sendReservationConfirmation } from '@/lib/email';
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
-        const { slot_id, name, email, phone } = body;
+        const { slot_id, name, email, phone, staff_required } = body;
 
         if (!slot_id || !name || !email || !phone) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -39,7 +39,8 @@ export async function POST(request: NextRequest) {
                     email,
                     phone,
                     token,
-                    status: 'confirmed'
+                    status: 'confirmed',
+                    staff_required: staff_required === true || staff_required === 'true'
                 },
                 include: {
                     property: true,

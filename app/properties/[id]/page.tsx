@@ -29,6 +29,7 @@ export default function PropertyDetailPage({ params }: PageProps) {
     const [selectedDate, setSelectedDate] = useState<string>('');
     const [showSlots, setShowSlots] = useState(false);
     const [selectedSlotId, setSelectedSlotId] = useState<number | null>(null);
+    const [staffRequired, setStaffRequired] = useState<boolean>(false);
     const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
     const [loading, setLoading] = useState(true);
     const [checkingSlots, setCheckingSlots] = useState(false);
@@ -66,6 +67,7 @@ export default function PropertyDetailPage({ params }: PageProps) {
         setCheckingSlots(true);
         setShowSlots(true);
         setSelectedSlotId(null);
+        setStaffRequired(false);
 
         try {
             const res = await fetch(`/api/properties/${propertyId}?date=${selectedDate}`);
@@ -94,6 +96,7 @@ export default function PropertyDetailPage({ params }: PageProps) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     slot_id: selectedSlotId,
+                    staff_required: staffRequired,
                     ...formData
                 })
             });
@@ -196,6 +199,27 @@ export default function PropertyDetailPage({ params }: PageProps) {
                                     </button>
                                 </div>
                             </div>
+
+                            {/* Staff Required Checkbox */}
+                            {showSlots && (
+                                <div className="mb-6 animate-fade-in">
+                                    <label className="flex items-center space-x-3 p-4 bg-white/50 border border-border rounded-xl cursor-pointer hover:bg-white/70 transition-colors group">
+                                        <input
+                                            type="checkbox"
+                                            checked={staffRequired}
+                                            onChange={(e) => setStaffRequired(e.target.checked)}
+                                            className="w-5 h-5 text-primary border-border rounded focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer"
+                                        />
+                                        <div className="flex-1">
+                                            <span className="font-semibold text-foreground block">スタッフの同行が必要</span>
+                                            <span className="text-sm text-muted-foreground">内見時にスタッフが同行する場合はチェックしてください</span>
+                                        </div>
+                                        <svg className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                        </svg>
+                                    </label>
+                                </div>
+                            )}
 
                             {/* Time Slots */}
                             {showSlots && (
