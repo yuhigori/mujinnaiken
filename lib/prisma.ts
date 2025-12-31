@@ -27,6 +27,12 @@ function createPrismaClient(): PrismaClient | null {
 const prismaClient = globalForPrisma.prisma ?? createPrismaClient();
 
 // prismaClient が null の場合でも、各ページ側の try/catch でフォールバックできるようにする
+// ただし、実際に使用する前に null チェックが必要
 export const prisma = prismaClient as unknown as PrismaClient;
+
+// prismaが利用可能かどうかをチェックするヘルパー関数
+export function isPrismaAvailable(): boolean {
+    return prismaClient !== null && typeof prismaClient !== 'undefined';
+}
 
 if (process.env.NODE_ENV !== 'production' && prismaClient) globalForPrisma.prisma = prismaClient;

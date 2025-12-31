@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { prisma } from '@/lib/prisma';
+import { prisma, isPrismaAvailable } from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,9 +8,14 @@ export default async function PropertiesPage() {
     let properties: any[] = [];
     
     try {
-        properties = await prisma.property.findMany({
-            orderBy: { created_at: 'desc' }
-        });
+        // prismaが利用可能かチェック
+        if (isPrismaAvailable()) {
+            properties = await prisma.property.findMany({
+                orderBy: { created_at: 'desc' }
+            });
+        } else {
+            console.warn('Prisma client is not available - showing empty list');
+        }
     } catch (error) {
         console.error('Error fetching properties:', error);
         // エラーが発生しても空配列で続行
