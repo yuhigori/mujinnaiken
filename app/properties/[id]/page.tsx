@@ -105,7 +105,7 @@ export default function PropertyDetailPage({ params }: PageProps) {
         if (property && selectedDate && propertyId && !showSlots && !loading) {
             // 少し遅延させて、初期レンダリング後に実行
             const timer = setTimeout(() => {
-                handleCheckAvailability();
+                handleCheckAvailabilityForDate(selectedDate);
             }, 100);
             return () => clearTimeout(timer);
         }
@@ -114,6 +114,11 @@ export default function PropertyDetailPage({ params }: PageProps) {
 
     const handleCheckAvailability = async () => {
         if (!selectedDate || !propertyId) return;
+        await handleCheckAvailabilityForDate(selectedDate);
+    };
+
+    const handleCheckAvailabilityForDate = async (date: string) => {
+        if (!date || !propertyId) return;
 
         setCheckingSlots(true);
         setShowSlots(true);
@@ -121,11 +126,12 @@ export default function PropertyDetailPage({ params }: PageProps) {
         setStaffRequired(false);
 
         try {
-            const res = await fetch(`/api/properties/${propertyId}?date=${selectedDate}`);
+            const res = await fetch(`/api/properties/${propertyId}?date=${date}`);
             if (!res.ok) {
                 throw new Error(`HTTP error! status: ${res.status}`);
             }
             const data = await res.json();
+            console.log('Fetched slots for date:', date, data.slots);
             setSlots(data.slots || []);
         } catch (error) {
             console.error('Error fetching slots:', error);
@@ -237,8 +243,16 @@ export default function PropertyDetailPage({ params }: PageProps) {
                                             value={selectedDate}
                                             min={new Date().toISOString().split('T')[0]}
                                             onChange={(e) => {
-                                                setSelectedDate(e.target.value);
+                                                const newDate = e.target.value;
+                                                setSelectedDate(newDate);
                                                 setShowSlots(false);
+                                                setSelectedSlotId(null);
+                                                // 日付変更時に自動的に空き状況を確認
+                                                if (newDate && propertyId) {
+                                                    setTimeout(() => {
+                                                        handleCheckAvailabilityForDate(newDate);
+                                                    }, 100);
+                                                }
                                             }}
                                             className="w-full p-4 pl-12 bg-white/90 border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all font-medium text-lg"
                                         />

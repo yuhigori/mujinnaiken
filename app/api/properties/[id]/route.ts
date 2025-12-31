@@ -165,8 +165,10 @@ export async function GET(
                         continue;
                     }
 
+                    // 一時的なIDを数値として生成（propertyId + hour * 1000 + 日付のタイムスタンプ）
+                    const tempId = propertyId * 1000000 + hour * 1000 + Math.floor(startTime.getTime() / 1000) % 1000;
                     slots.push({
-                        id: `temp-${propertyId}-${dateParam}-${hour}`, // 一時的なID
+                        id: tempId, // 数値IDとして生成
                         property_id: propertyId,
                         start_time: startTime.toISOString(),
                         end_time: endTime.toISOString(),
