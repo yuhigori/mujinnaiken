@@ -38,7 +38,6 @@ export async function GET(
         }
 
         // テスト用: 常にフォールバックスロットを生成（データベースの状態に関係なく）
-        const dateParam = request.nextUrl.searchParams.get('date');
         const targetDate = dateParam ? new Date(dateParam) : new Date();
         const startOfDay = new Date(targetDate);
         startOfDay.setHours(0, 0, 0, 0);
