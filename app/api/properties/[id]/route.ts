@@ -78,10 +78,10 @@ export async function GET(
                             const endTime = new Date(startOfDay);
                             endTime.setHours(hour + 1, 0, 0, 0);
 
-                            // 今日の場合は過去の時間をスキップ
-                            if (startOfDay.getTime() === today.getTime() && startTime < now) {
-                                continue;
-                            }
+                            // テスト用: 過去の時間もスキップしない
+                            // if (startOfDay.getTime() === today.getTime() && startTime < now) {
+                            //     continue;
+                            // }
 
                             newSlots.push({
                                 property_id: propertyId,
@@ -131,12 +131,12 @@ export async function GET(
                     const endTime = new Date(startOfDay);
                     endTime.setHours(hour + 1, 0, 0, 0);
 
-                    // 今日の場合は過去の時間をスキップ
-                    const isToday = startOfDay.getTime() === today.getTime();
-                    if (isToday && startTime < now) {
-                        console.log('Skipping past time:', startTime.toISOString());
-                        continue;
-                    }
+                    // テスト用: 過去の時間もスキップしない
+                    // const isToday = startOfDay.getTime() === today.getTime();
+                    // if (isToday && startTime < now) {
+                    //     console.log('Skipping past time:', startTime.toISOString());
+                    //     continue;
+                    // }
 
                     // 一時的なIDを数値として生成（propertyId + hour * 1000 + 日付のタイムスタンプ）
                     const tempId = propertyId * 1000000 + hour * 1000 + Math.floor(startTime.getTime() / 1000) % 1000;
